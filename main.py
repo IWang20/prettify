@@ -23,7 +23,7 @@ for filename in os.listdir(note_path):
         headers = pretty.pretty(note_path + filename, MAGIC_CODE_RATIO = 0.05, write_md = False, debugging = False)
         toc.append([filename, headers])
         # except Exception as e:
-        # print ('\tERROR:', e)
+        # print ('\tERROR:', e) 
 
 print('\nFinished.  Resulting Table of Contents:\n')
 for i in range(len(toc)):
