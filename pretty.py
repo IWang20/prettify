@@ -15,7 +15,7 @@ def pretty(filename, MAGIC_CODE_RATIO = 0.05, write_md = False, debugging = Fals
     Note: MAGIC_CODE_RATIO is the % of characters in a line that are allowed to be 'special' (such as parenthesis, brackets, etc.) before we suspect that line is part of a code block.  This is fairly hacky.  May want to adjust it on a per-file basis until you get the behavior you want."""
 
     with open(filename, 'rb') as textfile:
-        lines = textfile.read().split('\r\n')    # Split into lines, trim away newlines
+        lines = textfile.read().split(b'\r\n')    # Split into lines, trim away newlines
         # Temporarily label each line as one containing text.
         # Later we'll change some lines' labels to be things such as:
         #   ['text', 'header', 'pagebreak' 'code', 'code-start', ... ]
