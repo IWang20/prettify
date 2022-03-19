@@ -18,15 +18,15 @@ toc = []
 for filename in os.listdir(note_path):
     if filename.endswith(".txt"):
         path = note_path + filename
-        print 'Formatting ' + path + ' ...'
-        try:
-            headers = pretty.pretty(note_path + filename, MAGIC_CODE_RATIO = 0.05, write_md = False, debugging = False)
-            toc.append([filename, headers])
-        except Exception as e:
-            print '\tERROR:', e
+        print ('Formatting ' + path + ' ...')
+        # try:
+        headers = pretty.pretty(note_path + filename, MAGIC_CODE_RATIO = 0.05, write_md = False, debugging = False)
+        toc.append([filename, headers])
+        # except Exception as e:
+        # print ('\tERROR:', e)
 
-print '\nFinished.  Resulting Table of Contents:\n'
+print('\nFinished.  Resulting Table of Contents:\n')
 for i in range(len(toc)):
-    print i, toc[i][0]
+    print(i, toc[i][0])
     for j in range(len(toc[i][1])):
-        print '\t', j, toc[i][1][j]
+        print('\t', j, toc[i][1][j])

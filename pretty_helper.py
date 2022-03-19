@@ -27,18 +27,18 @@ def search_forwards(lines, i):
 
 def line_looks_like_code(line, code_symbol_ratio):
     """Sloppy.  We just check if the line is short and has symbols.  Should be followed up by checking if it is preceded and prepended by a blank line."""
-    code_chars = ['#', '[', ']', '=', '==', '<', '>']
+    code_chars = [b'#', b'[', b']', b'=', b'==', b'<', b'>']
     count = 0
     if len(line) > 0:
-        if line[-1] == '.' or '. ' in line:
+        if line[-1] == b'.' or b'. ' in line:
             return False
         for match in code_chars:
             if match in line:
                 count += 1
-        if '(' in line: # Only count '(' if there is a matching ')'
-            if ')' in line[line.index('(')+1:]:
+        if b'(' in line: # Only count '(' if there is a matching ')'
+            if b')' in line[line.index(b'(')+1:]:
                 count += 1
-        tempstr = ' '.join(line.split())
+        tempstr = b' '.join(line.split())
         if len(tempstr) == 0:
             return False
         else:
@@ -50,7 +50,7 @@ def line_looks_like_code(line, code_symbol_ratio):
 def line_starts_with_enumeration(line):
     try:
         # Check if the line begins with (#), #), or #.
-        m = re.finditer('\(*\d+\)|\d+\.', line).next()
+        m = re.finditer(b'\(*\d+\)|\d+\.', line).next()
         if m.start(0) == 0:
             return m.end(0)
     except Exception as e:
@@ -173,19 +173,20 @@ def protect_special_chars(lines):
     for i in range(len(lines)):
         if lines[i][0] in ['text', 'list', 'list-item']:
             protectedline = []
-            for c in lines[i][1]:
-                if c in '_*':
+            strline = lines[i][1].decode('utf-8')
+            for c in strline:
+                if '_' in c or '*' in c:
                     protectedline.append('\\' + c)
+                    # print("special chr in here:", strline)
                 else:
                     protectedline.append(c)
-            lines[i][1] = ''.join(protectedline)
-
+            lines[i][1] = ''.join(protectedline).encode('utf-8')
     return lines
 
 def apply_line_formatting(lines):
     """Here is where we apply Markdown formatting (and insert lines, as necessary), based on the line labels that we have created.  This should be called after all find_[foo]() functions have been applied."""
     i = 1
-    lines[0][1] = '# <div align=center>' + lines[0][1] + '</div>'
+    lines[0][1] = '# <div align=center>' + lines[0][1].decode('utf-8') + '</div>'
     lines.insert(1, ['added', '***'])
     headers = []
     while i < len(lines):
