@@ -41,12 +41,14 @@ approximate bound on the resources, based on the problem size.</p>
 <p>Getting to Big-O Notation: Throwing away Irrelevant Details</p>
 <p>Here is a simple Python function for computing the maximum of a list (or
 returning None if there are no values in the list).</p>
-<p>def maximum(alist):
-    answer = None if alist == [] else alist[0]
-    for i in range(1,len(alist)):
-        if alist[i] &gt; answer
-            answer = alist[i]
-    return answer</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">alist</span> <span class="o">==</span> <span class="p">[]</span> <span class="k">else</span> <span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">alist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">answer</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="n">alist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">answer</span>
+</code></pre></div>
+
 <p>Often, the problem size is the number of values processed: e.g., the number of
 values in a list or in a file. But we can use other metrics as well: it can be
 the count of number of digits in an integer value, when looking at the
@@ -113,12 +115,14 @@ If you are interested in how this function accomplishes sorting, hand simulate
 it working on a list of 5-10 values (try increasing values, decreasing values,
 values in random order): basically each execution of the outer loops mutates the
 list so that the next value in the list is in the correct position.</p>
-<p>def sort(alist):
-    for base in range(len(alist)):
-        for check in range(base+1,len(alist)):
-            if alist[base] &gt; alist[check]:
-                alist[base], alist[check] = alist[check],alist[base]
-    return None  # list is mutated</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">check</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">base</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">alist</span><span class="p">[</span><span class="n">base</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">alist</span><span class="p">[</span><span class="n">check</span><span class="p">]:</span>
+                <span class="n">alist</span><span class="p">[</span><span class="n">base</span><span class="p">],</span> <span class="n">alist</span><span class="p">[</span><span class="n">check</span><span class="p">]</span> <span class="o">=</span> <span class="n">alist</span><span class="p">[</span><span class="n">check</span><span class="p">],</span><span class="n">alist</span><span class="p">[</span><span class="n">base</span><span class="p">]</span>
+    <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># list is mutated</span>
+</code></pre></div>
+
 <p>It turns out that for a list of N values, the computer executes 8N**2 + 12N + 6
 instructions in the worst case for this function. The outer loop executes N
 times (N is len(alist)) and inner loop on average executes N/2 times, so the

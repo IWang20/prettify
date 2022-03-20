@@ -9,7 +9,7 @@ Contains the main function pretty( ) which takes in the name of a raw text file,
 from markdown import markdown
 import pretty_helper as fmt
 
-def pretty(filename, MAGIC_CODE_RATIO = 0.05, write_md = False, debugging = False):
+def pretty(filename, MAGIC_CODE_RATIO = 0.07, write_md = False, debugging = False):
     """Reads in a text file, writes an .html file and a .md file.
 
     Note: MAGIC_CODE_RATIO is the % of characters in a line that are allowed to be 'special' (such as parenthesis, brackets, etc.) before we suspect that line is part of a code block.  This is fairly hacky.  May want to adjust it on a per-file basis until you get the behavior you want."""

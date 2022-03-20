@@ -10,18 +10,18 @@ import re
 
 def to_text(lines):
     """Re-joins the lines into a single newline-separated string."""
-    return '\n'.join(lines)
+    return '\n'.join(lines)        # currently only code blocks are the non stringified code 
 
 def search_backwards(lines, i):
     """Search backwards until a blank line is found."""
     for j in range(i-1, -1, -1):
-        if lines[j][1] == '':
+        if lines[j][1] == b'':
             return j
 
 def search_forwards(lines, i):
     """Search forwards until a blank line is found."""
     for k in range(i+1, len(lines), 1):
-        if lines[k][1] == '':
+        if lines[k][1] == b'':
             return k
     return k
 
@@ -69,19 +69,24 @@ def find_headers(lines):
 
 def find_code(lines, MAGIC_CODE_RATIO):
     """Identify code blocks in a limited fashion.  Does not identify inline code."""
+    print("Creating code blocks...")
     i = 0
     while i < len(lines):
         # If a line isn't 'text', then it's already been labeled as something else. Skip it.
         if lines[i][0] == 'text':
             # Most code blocks start with a function defintition.
-            if lines[i][1][:4] == 'def ':
+            if lines[i][1][:4] == b'def ':
                 # Occasionally there might be an import line or something similar prior to the 'def', so we look back until we find a blank line, as well as ahead to find the end.
                 block_start = search_backwards(lines, i)
                 block_end = search_forwards(lines, i)
                 for j in range(block_start+2, block_end):
                     lines[j][0] = 'code'
+                    # lines[j][1] = lines[j][1].decode('utf-8')
                 lines[block_start+1][0] = 'code-start'
                 lines[block_end][0] = 'code-end'
+                # lines[block_end][1] = lines[block_end][0].decode('utf-8')
+                # lines[block_start][1] = lines[block_end][0].decode('utf-8')
+
                 i = block_end + 1
             # Some don't!
             elif line_looks_like_code(lines[i][1], MAGIC_CODE_RATIO):
@@ -204,9 +209,13 @@ def apply_line_formatting(lines):
             lines.insert(i+1, ['added', '\[[top](#top)\]'])
             i += 1
         elif lines[i][0] == 'code-start':
+            lines[i][1] = lines[i][1].decode('utf-8')
             lines.insert(i, ['added', '```python'])
             i += 1
+        elif lines[i][0] == 'code':
+            lines[i][1] = lines[i][1].decode('utf-8')
         elif lines[i][0] == 'code-end':
+            lines[i][1] = lines[i][1].decode('utf-8')
             lines.insert(i+1, ['added', '```'])
             i += 1
         elif lines[i][0] == 'list-item':

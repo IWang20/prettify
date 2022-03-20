@@ -440,9 +440,11 @@ x.report('x') # By FEOOP, exactly the same as calling C.report(x,'x')
 print()</p>
 <p>prints
   instance referred to by x /instance_var= 10</p>
-<p>def bump(self,name):
-    print(name,'bumped')
-    self.instance_var += 1</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="s1">&#39;bumped&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_var</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div>
+
 <p>bump(x,'x')
 x.report('x')
 print()</p>
@@ -474,13 +476,17 @@ would be that Python raises </p>
 <p>So we can both ADD and REMOVE names from a class object's namespace!</p>
 <p>Note that we could have defined/written bump as follows (note use of p not self
 as the first parameter of bump)</p>
-<p>def  bump(p,name):
-    print(name,'bumped')
-    p.instance_var += 1</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span>  <span class="nf">bump</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="s1">&#39;bumped&#39;</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">instance_var</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div>
+
 <p>and nothing changes, so long as every occurrence of self is changed to p inside
 the bump function (as is done). We could likewise write</p>
-<p>def report(p,var):
-    ...</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">var</span><span class="p">):</span>
+    <span class="o">...</span>
+</code></pre></div>
+
 <p>inside the C class itself. The parameter name self is just the standard name 
 used in Python code; but there is nothing magical about this name, and we can
 substitute whatever name we want for the first parameter. This parameter will
@@ -499,9 +505,11 @@ technique to add a method to an object that is different than the one defined
 in the object's class.</p>
 <p>Start with the class C as defined above, defining just __init__ and report.
 Then</p>
-<p>def bump(self,name):
-    print(name,'bumped')
-    self.instance_var += 1</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="s1">&#39;bumped&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_var</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div>
+
 <p>x = C(0)
 y = C(100)</p>
 <p>x.bump = bump;</p>
@@ -581,15 +589,20 @@ directly, but through delegation by calling bump in the C class.</p>
 <p>x = C(10)
 y = C(20)
 z = C(30)</p>
-<p>def bump1(self,name):
-    print('bump1',name)
-    self.instance_var += 1</p>
-<p>def bump2(self,name):
-    print('bump2',name)
-    self.instance_var += 2</p>
-<p>x.object_bump = bump1
-y.object_bump = bump2</p>
-<h1>No binding of z.object_bump</h1>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bump1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bump1&#39;</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_var</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bump2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bump2&#39;</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_var</span> <span class="o">+=</span> <span class="mi">2</span>
+
+<span class="n">x</span><span class="o">.</span><span class="n">object_bump</span> <span class="o">=</span> <span class="n">bump1</span>
+<span class="n">y</span><span class="o">.</span><span class="n">object_bump</span> <span class="o">=</span> <span class="n">bump2</span>
+<span class="c1"># No binding of z.object_bump</span>
+</code></pre></div>
+
 <p>x.report('x')
 x.bump('x')
 x.report('x')
@@ -616,19 +629,23 @@ z.report('z')</p>
 <hr />
 <p>Redefinition of Function Names</p>
 <p>Note that we can redefine a function or class. For example, we can write</p>
-<p>def f(): return 0
-def f(): return 1
-print(f())</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">():</span> <span class="k">return</span> <span class="mi">0</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span> <span class="k">return</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
+</code></pre></div>
+
 <p>Calling f() would return 1. Eclipse gets upset about this, and marks the
 second definition as an error (duplicate signature), but there is nothing
 technically wrong with this code (although the first definition is useless,
 and there may be a mistake in the spelling of one of these functions). Python
 will run the script. We can also write the following script, which Eclipse
 won't complain about, and runs the same.</p>
-<p>def f(): return 0
-def g(): return 1
-f = g
-print(f())</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">():</span> <span class="k">return</span> <span class="mi">0</span>
+<span class="k">def</span> <span class="nf">g</span><span class="p">():</span> <span class="k">return</span> <span class="mi">1</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">g</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
+</code></pre></div>
+
 <p>Calling f() returns 1. Again, def just makes a name refer to a function object;
 if, as in the case of the two definitions of the f name above, the name already
 refers to an object, the binding of f is just changed to refer to the function
@@ -640,8 +657,10 @@ first example in these notes.</p>
 <p>In summary, def f or class C just define a name and binds it to a function/class
 object. We can call the function or the class's constructor. We can rebind that
 name later to any other object. We can even write</p>
-<p>def f(): return 0
-f = 0</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">():</span> <span class="k">return</span> <span class="mi">0</span>
+<span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div>
+
 <p>Now f is bound to an int instance object, not a function object.</p>
 <hr />
 <p>Accessor/Mutator Methods (or query/command methods) and Instance Variables
@@ -738,11 +757,13 @@ often the code there allows us to test the class or module).</p>
 <p>We can declare a class in a function and call the function to return an object
 constructed from the class (and even use the returned object if we know 
 its defined instance variables or methods).</p>
-<p>def f(x):
-    class C:
-        def __init__(self,x):  self.val = x
-        def double  (self)  :  return 2*self.val<br />
-    return C(x)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">C</span><span class="p">:</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>  <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">def</span> <span class="nf">double</span>  <span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="p">:</span>  <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">val</span>  
+    <span class="k">return</span> <span class="n">C</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
 <p>y = f(1)
 print(y, y.val, y.double())</p>
 <p>When run, this script prints the following.</p>
@@ -850,12 +871,14 @@ front and back.</p>
 <hr />
 <p>Problems:</p>
 <p>1) What does the following script print?</p>
-<p>class C:
-    def __init__(self):
-        print('C object created')
-D = C
-def C():
-  print('C function called')</p>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">C</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;C object created&#39;</span><span class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">C</span>
+<span class="k">def</span> <span class="nf">C</span><span class="p">():</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;C function called&#39;</span><span class="p">)</span>
+</code></pre></div>
+
 <p>x = C()
 y = D()</p>
 <p>2) What does the following script print? Draw a picture of the object x refers
@@ -872,11 +895,13 @@ same names, but do so only if low is strictly less than high (otherwise it
 should raise the AssertionError exception with an appropriate string.</p>
 <p>4) Explain why each of the following code fragments does what it does: two
 execute (with different results) and one raises an exception.</p>
-<p>g = 0           g = 0           g = 0
-def f():        def f():        def f():
-  print(g)        print(g)        print(g)    <br />
-              global g        g += 1
-              g += 1          </p>
+<div class="codehilite"><pre><span></span><code><span class="n">g</span> <span class="o">=</span> <span class="mi">0</span>           <span class="n">g</span> <span class="o">=</span> <span class="mi">0</span>           <span class="n">g</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>        <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>        <span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>        <span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>      
+              <span class="k">global</span> <span class="n">g</span>        <span class="n">g</span> <span class="o">+=</span> <span class="mi">1</span>
+              <span class="n">g</span> <span class="o">+=</span> <span class="mi">1</span>          
+</code></pre></div>
+
 <p>f()         f()             f()
 g += 1          g += 1          g += 1
 f()         f()             f()</p>
@@ -907,10 +932,13 @@ was in the notes.</p>
 
 <p>x = C(10)
 y = C(20)</p>
-<p>def bump(self,name):
-    print('bumped',name)
-    self.instance_var += 1</p>
-<p>C.object_bump = bump    </p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bumped&#39;</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_var</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">C</span><span class="o">.</span><span class="n">object_bump</span> <span class="o">=</span> <span class="n">bump</span>    
+</code></pre></div>
+
 <p>x.report('x')
 x.bump('x')
 x.report('x')</p>

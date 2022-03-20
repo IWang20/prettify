@@ -528,8 +528,10 @@ doing computations on them that accumulate the least amount of error.</p>
 names of its PARAMETERS in its header (in parentheses, separated by commas).
 Whenever we CALL a function we specify the values of its ARGUMENTS (also in
 parentheses, separated by commas). The definition below</p>
-<p>def f(x,y):
-    return x**y</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="n">y</span>
+</code></pre></div>
+
 <p>defines a function of two parameters: x and y. When we define a function we
 (re)bind the function's name to the function object. This is similar to what
 happens when we write x = 1 which (re)binds a name to a data object: here, an
@@ -555,8 +557,10 @@ It is like writing: x = 5 and then y = 2*6 which binds the parameter x to the
 object 5 and then the parameter y to the object 12.</p>
 <p>Sometimes we can use the parameter defined in one function as an argument when
 calling another function inside its body. If we define</p>
-<p>def factorial_sum(a,b):
-    return factorial(a) + factorial(b)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">factorial_sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">factorial</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">factorial</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+
 <p>Here the parameters a and b of factorial_sum function are used as arguments in
 the two calls in its body to the factorial function.</p>
 <p>Parameters are always names. Arguments are always expressions that evaluate to
@@ -580,12 +584,18 @@ object is not callable.</p>
 <p>While this rule is simple to understand for the functions that you have been
 writing and calling, there are some much more interesting ramifications of this
 simple rule. Run the following code to define these three functions.</p>
-<p>def double(x):
-    return 2*x</p>
-<p>def triple(x):
-    return 3*x</p>
-<p>def times10(x):
-    return 10*x</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">triple</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">times10</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">10</span><span class="o">*</span><span class="n">x</span>
+</code></pre></div>
+
 <p>Note that each def defines the name of a function and binds that name to the
 function object that follows it.</p>
 <p>If we then wrote</p>
@@ -639,14 +649,16 @@ function object (here fs['x3']) with the argument 5 (here fs<a href="5">'x3'</a>
 second statement we use the () to call the function selected from the
 dictionary.</p>
 <p>We can also pass (uncalled) functions (objects) as arguments to other functions.</p>
-<h1>p is a predicate: a 1-argument function returning a bool (True or False)</h1>
-<h1>alist is a list of values on which p can be/is called</h1>
-<h1>count_true returns the number of values in alist for which p returns True</h1>
-<p>def count_true(p, alist): 
-    count = 0
-    for x in alist:
-        if p(x):
-            count += 1</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># p is a predicate: a 1-argument function returning a bool (True or False)</span>
+<span class="c1"># alist is a list of values on which p can be/is called</span>
+<span class="c1"># count_true returns the number of values in alist for which p returns True</span>
+<span class="k">def</span> <span class="nf">count_true</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">alist</span><span class="p">):</span> 
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code><span class="k">return</span> <span class="nv">count</span>
 </code></pre></div>
 
@@ -663,8 +675,10 @@ is called many times inside the count_true function: one for each value in the
 list. We call count_true a "functional" because it is a function that is passed
 a function as an argument.</p>
 <p>In summary</p>
-<p>def f(x):
-    return 2*x</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
+</code></pre></div>
+
 <p>is really just a special syntax for creating a name f and binding it to a new
 function object (not using an = sign, which we normally use for defining names).</p>
 <p>Note the difference between the following, which both print 6. Both g and f
@@ -725,9 +739,11 @@ print(x)</p>
 <p>which prints 1. Here the module defines a global name x (by rule 1) and binds
 it to the object 1 and prints the value bound to that global name.</p>
 <p>Now let's look at Example 2: </p>
-<p>x = 1
-def f():
-    print(x)</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
 <p>f()
 print(x)</p>
 <p>which prints 1 and then 1. Here the module defines a global name x (by rule 1)
@@ -739,10 +755,12 @@ name x (again, by rule 1).</p>
 <p>In this example, all the uses (there is just one) of x inside the function is
 global.</p>
 <p>Now let's look at Example 3: </p>
-<p>x = 1
-def f():
-    x = 2
-    print(x)</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
 <p>f()
 print(x)</p>
 <p>which prints 2 and then 1. Here the module defines a global name x (by rule 1)
@@ -756,10 +774,12 @@ prints the value bound to the global name x (by rule 1), which is still 1.</p>
 both uses of the name x in this function are local; in the preceding one, the
 use of the name x in this function is global.</p>
 <p>Now let's look at Example 4: </p>
-<p>x = 1
-def f():
-    y = 2
-    print(x,y)</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
 <p>f()
 print(x)</p>
 <p>which prints 1 2 and then 1. Here the module defines a global name x (by rule 1)
@@ -778,14 +798,16 @@ rebind that global name to 2. Let's see why this fails to be the effect of the
 code below (later we will see how to accomplish this task). In fact, it fails in
 an interesting way.</p>
 <p>Now let's look at Example 5: </p>
-<p>x = 1           # wrong code to print a global and then change it
-def f():        # wrong code to print a global and then change it
-    y = 2       # wrong code to print a global and then change it
-    print(x,y)      # wrong code to print a global and then change it
-    x = 2       # wrong code to print a global and then change it
-                # wrong coed to print a global and then change it
-f()             # wrong code to print a global and then change it
-print(x)        # wrong code to print a global and then change it</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>           <span class="c1"># wrong code to print a global and then change it</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>        <span class="c1"># wrong code to print a global and then change it</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>       <span class="c1"># wrong code to print a global and then change it</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>      <span class="c1"># wrong code to print a global and then change it</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>       <span class="c1"># wrong code to print a global and then change it</span>
+                <span class="c1"># wrong coed to print a global and then change it</span>
+<span class="n">f</span><span class="p">()</span>             <span class="c1"># wrong code to print a global and then change it</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>        <span class="c1"># wrong code to print a global and then change it</span>
+</code></pre></div>
+
 <p>Here, the module defines a global name x (by rule 1) and binds it to the object
 1; then it defines a global name f (by rule 1) and binds it to a function
 object: note the function uses the names x and y; x is local (by rule 3; it is
@@ -801,14 +823,16 @@ The name x is either always global or always local in a function. Here, by rule
 <p>If we put the x = 2 before the print, it doesn't raise an exception, but doesn't
 rebind the global name x either.</p>
 <p>Now let's look at Example 6: </p>
-<p>x = 1           # wrong code
-def f():        # wrong code
-    y = 2       # wrong code
-    x = 2       # wrong code
-    print(x,y)      # wrong code
-                # wrong code
-f()             # wrong code
-print(x)        # wrong code</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>           <span class="c1"># wrong code</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>        <span class="c1"># wrong code</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>       <span class="c1"># wrong code</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>       <span class="c1"># wrong code</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>      <span class="c1"># wrong code</span>
+                <span class="c1"># wrong code</span>
+<span class="n">f</span><span class="p">()</span>             <span class="c1"># wrong code</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>        <span class="c1"># wrong code</span>
+</code></pre></div>
+
 <p>Python would print 2 2 and then 1. Here, the module defines a global name x
 (by rule 1) and binds it to the object 1; then it defines a global name f (by
 rule 1) and binds it to a function object: note the function uses the names x
@@ -823,12 +847,14 @@ before x is used inside f. This declaration means that x should always be
 treated as a global name inside this function (whether it is examined or
 bound to an object, or both) by rule 2.</p>
 <p>Now let's look at Example 7: </p>
-<p>x = 1
-def f():
-    global x
-    y = 2
-    print(x,y)
-    x = 2</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">x</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+</code></pre></div>
+
 <p>f()
 print(x)</p>
 <p>Python would print 1 2 and then print 2 (thus the global name x has changed
@@ -863,11 +889,13 @@ function will use it as a local name (so it better be defined first too).</p>
 above, but it does not define a global name x before defining f. Can you explain
 why (in terms of the rules) it does what it does?</p>
 <p>Now let's look at Example 8: </p>
-<p>def f():
-    global x
-    x = 2
-    y = 2
-    print(x,y)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">x</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
 <p>f()
 print(x)</p>
 <p>Also can you explain what would happen if the print statement print(x,y) were
@@ -884,34 +912,40 @@ one of its parameters. BUT if a function must (re)bind a global name either</p>
       multiple global names: gn1, gn2, ..., gnN = f(...) where f returns an
       N-tuple or N-list (see the Parallel/Tuple/List Assignment -aka sequence
       unpacking- section below).</p>
-<p>Problem 1: Explain why we cannot write a general function in Python that
-exchanges the references in its argument names. That is, we cannot write
-def f(x,y):
-  ...
-such that
-a = 1
-b = 2
-f(a,b)
-print(a,b) # prints 2 and 1</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Problem</span> <span class="mi">1</span><span class="p">:</span> <span class="n">Explain</span> <span class="n">why</span> <span class="n">we</span> <span class="n">cannot</span> <span class="n">write</span> <span class="n">a</span> <span class="n">general</span> <span class="n">function</span> <span class="ow">in</span> <span class="n">Python</span> <span class="n">that</span>
+<span class="n">exchanges</span> <span class="n">the</span> <span class="n">references</span> <span class="ow">in</span> <span class="n">its</span> <span class="n">argument</span> <span class="n">names</span><span class="o">.</span> <span class="n">That</span> <span class="ow">is</span><span class="p">,</span> <span class="n">we</span> <span class="n">cannot</span> <span class="n">write</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+  <span class="o">...</span>
+<span class="n">such</span> <span class="n">that</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="c1"># prints 2 and 1</span>
+</code></pre></div>
+
 <p>Such a function cannot be written in Java either (but can be written in C/C++).</p>
 <p>Problem 2: Write a SPECIFIC function in Python that exchanges the references
 ONLY FOR THE NAMES a AND b. Hint: use global. That is,</p>
-<p>def f():
-  ...
-such that
-a = 1
-b = 2
-f()
-print(a,b) # prints 2, and 1</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+  <span class="o">...</span>
+<span class="n">such</span> <span class="n">that</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">f</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="c1"># prints 2, and 1</span>
+</code></pre></div>
+
 <p>Problem 3: Write a GENERAL function in Python that we can CALL IN A SPECIAL WAY
 to exchange the references of its two argument names. Hint: read the paragraph
 above about multiple return values.</p>
-<p>def f(x,y):
-  ...
-a = 1
-b = 2</p>
-<h1>some Python statement, calling f on a and b such that</h1>
-<p>print(a,b) # prints 2, and 1</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+  <span class="o">...</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="c1"># some Python statement, calling f on a and b such that</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="c1"># prints 2, and 1</span>
+</code></pre></div>
+
 <p>These local/global rules are generalized in the next section to include 4
 different locations/scopes: LEGB
   1) functions (Local scope -as seen above)
@@ -929,14 +963,18 @@ objects as arguments to parameters; see the count_true function defined earlier)
 is very powerful and useful. In this section, we will generalize the scope
 rules discussed above and learn how these new rules apply when functions defined
 and returned in functions are called.</p>
-<p>def bigger_than(age):
-    def test_it(x):
-        return x &gt; age</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bigger_than</span><span class="p">(</span><span class="n">age</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_it</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">age</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code>return test\_it
 </code></pre></div>
 
-<p>def running_average1():
-    data = []              # Mutated, but not rebound, in include_it</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">running_average1</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>              <span class="c1"># Mutated, but not rebound, in include_it</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code>def include\_it(x):
     data.append(x)     #   mutate data&#39;s list; rebinding is not needed/used
     return sum(data)/len(data)
@@ -944,9 +982,11 @@ and returned in functions are called.</p>
 return include\_it
 </code></pre></div>
 
-<p>def running_average2():
-    sum   = 0              # rebound in include_it
-    count = 0              # rebound in include_it</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">running_average2</span><span class="p">():</span>
+    <span class="nb">sum</span>   <span class="o">=</span> <span class="mi">0</span>              <span class="c1"># rebound in include_it</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>              <span class="c1"># rebound in include_it</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code>def include\_it(x):
     nonlocal sum,count # allow rebinding of locals in outer function&#39;s scope
     sum += x           # rebind sum
@@ -1006,9 +1046,11 @@ M.n = ...</p>
        4) in the        Builtins scope(in the builtins module); and if not found
        5) raises NameError</p>
 <p>For example, the code</p>
-<p>x = 1
-def f(y):
-    print(x,y)</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
 <p>f(2)
 print(x)</p>
 <p>prints 1 2 and then 1. Here the module defines a global name x (by rule 1)
@@ -1047,9 +1089,11 @@ happens. Eventually it becomes 2nd nature, except where strange behavior occur.
 function. None of these functions use global or builtin names, so all names are
 defined locally or nonlocally (in an enclosing scope, found by the LEGB rule).</p>
 <p>The first is function is</p>
-<p>def bigger_than(age):
-    def test_it(x):
-        return x &gt; age</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bigger_than</span><span class="p">(</span><span class="n">age</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_it</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">age</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code>return test\_it
 </code></pre></div>
 
@@ -1106,8 +1150,10 @@ are calling the returned function object (the one bigger_than(60) returned).
 When calling this returned function object using the argument 70, it returns
 True.</p>
 <p>Now, let's examine another example. In the function </p>
-<p>def running_average1():
-    data = []              # data is mutated, not rebound, in include_it</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">running_average1</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>              <span class="c1"># data is mutated, not rebound, in include_it</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code>def include\_it(x):
     data.append(x)     # mutate data&#39;s list in enclosing scope
     return sum(data)/len(data)
@@ -1133,9 +1179,11 @@ data defined in the scope for running_average, its enclosing function (why the
 name "closure" is meaningful). Note that data in include_it is found by the
 LEGB rule: data is never rebound, but its list is mutated when append is called.</p>
 <p>Finally, in the function</p>
-<p>def running_average2():
-    sum   = 0              # sum   is rebound, not mutated, in include_it
-    count = 0              # count is rebound, not mutated, in include_it</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">running_average2</span><span class="p">():</span>
+    <span class="nb">sum</span>   <span class="o">=</span> <span class="mi">0</span>              <span class="c1"># sum   is rebound, not mutated, in include_it</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>              <span class="c1"># count is rebound, not mutated, in include_it</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code>def include\_it(x):
     nonlocal sum,count # sum/count are nonlocal; can rebind in enclosing scope
     sum   += x         # rebind sum   in enclosing scope
@@ -1166,19 +1214,20 @@ behavior from simple Python code.</p>
 copy/paste the following code into a Python module in Eclipse and execute it
 to see what Python says. If you got the answer wrong, how can you debug your
 understanding to get the right answer.</p>
-<p>def f():
-    prev = None</p>
-<div class="codehilite"><pre><span></span><code>def g1(x):
-    nonlocal prev
-    temp = prev
-    prev = x+5
-    return temp
-def g2(x):
-    nonlocal prev
-    temp = prev
-    prev = 5\*x
-    return temp
-return g1,g2
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+    <span class="n">prev</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">g1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">prev</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">prev</span>
+        <span class="n">prev</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="mi">5</span>
+        <span class="k">return</span> <span class="n">temp</span>
+    <span class="k">def</span> <span class="nf">g2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">prev</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">prev</span>
+        <span class="n">prev</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">x</span>
+        <span class="k">return</span> <span class="n">temp</span>
+    <span class="k">return</span> <span class="n">g1</span><span class="p">,</span><span class="n">g2</span>
 </code></pre></div>
 
 <p>f1,f2 = f()
@@ -1268,8 +1317,10 @@ appear in a return statement; in fact, lambdas cannot include any any
 statements or control structures, not even a block of sequential statements.</p>
 <p>So, writing ...(lambda x,y : x+y)... in some context</p>
 <p>Is just like first defining</p>
-<p>def f(x,y):
-    return x+y</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+</code></pre></div>
+
 <p>and then writing ...f... in the same context. That is calling
 print( (lambda x,y : x+y)(2,3) ) is the same as calling print( f(2,3) ).</p>
 <p>A lambda produces an UNNAMED function object: there is no name bound to it. But
@@ -1316,16 +1367,20 @@ write h( lambda x : (x[1],x[0]) ). We also wrote this call above as
 h( (lambda x : x[1],x[0]) ). In both cases the parentheses remove the ambiguity
 about the lambda.</p>
 <p>In a previous section (functions returning functions) we wrote the code</p>
-<p>def bigger_than(age):
-    def test_it(x) :
-        return x &gt; age
-    return test_it</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bigger_than</span><span class="p">(</span><span class="n">age</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_it</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">age</span>
+    <span class="k">return</span> <span class="n">test_it</span>
+</code></pre></div>
+
 <p>We defined the test_it function just so we could return a reference to it. Now,
 because the test_it function is so simple, and the only place we refer to it by
 name is in the return statement, we can simplify this code by returning a
 lambda instead of defining/returning a named function:</p>
-<p>def bigger_than(age) :
-    return (lambda x : x &gt; age)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">bigger_than</span><span class="p">(</span><span class="n">age</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">age</span><span class="p">)</span>
+</code></pre></div>
+
 <p>So, in each version of the bigger_than function, it returns a reference to a
 function object.</p>
 <hr />
@@ -1382,8 +1437,10 @@ tuple/list structure and we want to bind names to its components, to refer to
 these components more easily by these names: each name binds to part of the
 complicated structure.</p>
 <p>As another example, if we define a function that returns a tuple</p>
-<p>def reverse(a,b) :
-    return (b,a)    # we could also write just return b,a</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>    <span class="c1"># we could also write just return b,a</span>
+</code></pre></div>
+
 <p>we can also write x,y = reverse(x,y) to also exchange these values.</p>
 <p>Finally, one of the most common ways to use unpacking assignment is in for
 loops: for example, we can write the following for loop to process a list of
@@ -1509,10 +1566,12 @@ using its value to create a temporary list; then sorting that temporary list;
 and finally returning the sorted temporary list: sorted mutates the list it
 creates internally; it does not mutate the argument matching iterable.</p>
 <p>So, we can think of the sorted function to be defined by</p>
-<p>def sorted (iterable):
-  alist = list(iterable)  # construct a list with all the iterable's values
-  alist.sort()        # sort that list using the sort method for lists
-  return alist        # return the sorted list</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">sorted</span> <span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+  <span class="n">alist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>  <span class="c1"># construct a list with all the iterable&#39;s values</span>
+  <span class="n">alist</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>        <span class="c1"># sort that list using the sort method for lists</span>
+  <span class="k">return</span> <span class="n">alist</span>        <span class="c1"># return the sorted list</span>
+</code></pre></div>
+
 <p>Question: What would the following code do? If you understand the definitions
 above, you won't be fooled and the answer won't surprise you. Hint: what does
 votes.sort() return vs. sorted(votes)? If you cannot figure out the answer,
@@ -1698,8 +1757,10 @@ for comparison.</p>
 only the second value in the tuple (recall indexes start at 0) for the key on
 which Python will compare. For the argument 2-tuple ('Baker' ,20) by_vote_count
 returns 20.</p>
-<p>def by_vote_count(t):
-    return t[1]            # remember t[0] is the first index, t[1] the second</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">by_vote_count</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>            <span class="c1"># remember t[0] is the first index, t[1] the second</span>
+</code></pre></div>
+
 <p>So, when we sort with key=by_vote_count, we are telling the sorted function to
 determine the order of values by calling the by_vote_count function on each
 value: so in this call of sorted, we are comparing tuples based solely on their
@@ -2206,9 +2267,11 @@ calling the function.</p>
 argument/parameter matching specified above. These functions just print their
 parameters, so we can see the arguments bound to them (or see which exception
 they raise). Certainly you should try others to increase your understanding.</p>
-<p>def f(a,b,c=10,d=None): print(a,b,c,d)
-def g(a=10,b=20,c=30) : print(a,b,c)
-def h(a,*b,c=10)      : print(a,b,c)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="o">*</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>      <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+</code></pre></div>
+
 <p>Call              | Parameter/Argument Binding (matching rule)
 ------------------+--------------------------------------------
 f(1,2,3,4)    | a=1, b=2, c=3, d=4(M1)
@@ -2262,9 +2325,11 @@ h(1,2,3,4,c=5,a=1)| a=1(M1); b=(2,3,4)(M2); c=5(M3);
 is implemented in Python; we don't really need to write this function, because
 it already is in Python, but here is how it is written in Python. We will cover
 raising exceptions later in this lecture note, so don't worry about that code.</p>
-<p>def max(*args) :          # Can refer to args inside; it is a tuple of values
-    if len(args) == 0:
-        raise TypeError('max: expected &gt;=1 arguments, got 0')</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">:</span>           <span class="c1"># Can refer to args inside; it is a tuple of values</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;max: expected &gt;=1 arguments, got 0&#39;</span><span class="p">)</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code><span class="nv">answer</span> <span class="o">=</span> <span class="nv">args</span>[<span class="mi">0</span>]       # <span class="nv">len</span> <span class="nv">not</span> <span class="mi">0</span>, <span class="nv">so</span> <span class="nv">guaranteed</span> <span class="nv">to</span> <span class="nv">exist</span>
 <span class="k">for</span> <span class="nv">v</span> <span class="nv">in</span> <span class="nv">args</span>[<span class="mi">1</span>:]:     # <span class="nv">slice</span> <span class="k">for</span> <span class="nv">every</span> <span class="nv">value</span> <span class="nv">but</span> <span class="nv">the</span> <span class="nv">first</span> <span class="ss">(</span><span class="nv">at</span> <span class="nv">index</span> <span class="mi">0</span><span class="ss">)</span>
     <span class="k">if</span> <span class="nv">v</span> <span class="o">&gt;</span> <span class="nv">answer</span>:     # <span class="k">if</span> <span class="nv">v</span> <span class="nv">is</span> <span class="nv">bigger</span> <span class="nv">than</span> <span class="nv">the</span> <span class="nv">biggest</span> <span class="nv">value</span> <span class="nv">seen</span>,
@@ -2277,9 +2342,11 @@ raising exceptions later in this lecture note, so don't worry about that code.</
 arguments or (b) one iterable argument. It is a bit more subtle to write
 correctly to handle both parameter structures, but here is the code. This
 version avoids slicing (which consume extra time and space).</p>
-<p>def max(*args) :          # Can refer to args inside; it is a tuple of values
-    if len(args) == 0:
-        raise TypeError('max: expected &gt;=1 arguments, got 0')</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">:</span>           <span class="c1"># Can refer to args inside; it is a tuple of values</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;max: expected &gt;=1 arguments, got 0&#39;</span><span class="p">)</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code><span class="nt">if</span><span class="w"> </span><span class="nt">len</span><span class="o">(</span><span class="nt">args</span><span class="o">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nt">1</span><span class="o">:</span><span class="w">     </span><span class="err">#</span><span class="w"> </span><span class="nt">Assume</span><span class="w"> </span><span class="nt">that</span><span class="w"> </span><span class="nt">if</span><span class="w"> </span><span class="nt">max</span><span class="w"> </span><span class="nt">has</span><span class="w"> </span><span class="nt">just</span><span class="w"> </span><span class="nt">one</span><span class="w"> </span><span class="nt">argument</span><span class="w"> </span><span class="nt">then</span><span class="w"></span>
 <span class="w">    </span><span class="nt">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">args</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="w">     </span><span class="err">#</span><span class="w">   </span><span class="nt">it</span><span class="err">&#39;</span><span class="nt">s</span><span class="w"> </span><span class="nt">iterable</span><span class="o">,</span><span class="w"> </span><span class="nt">so</span><span class="w"> </span><span class="nt">take</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">max</span><span class="w"> </span><span class="nt">over</span><span class="w"> </span><span class="nt">its</span><span class="w"> </span><span class="nt">values</span><span class="w"></span>
 
@@ -2302,12 +2369,14 @@ once at the end, to print only one string that it builds from args along with
 sep and end; it prints the same thing the normal print would print with the same
 arguments. Notice the use of the conditional if in the first line, to initialize
 s to either '' or the string value of the first argument.</p>
-<p>def myprint(*args, sep=' ', end='\n'):
-    s = (str(args[0]) if len(args) &gt;= 1 else '') # handle 1st (if there) special
-    for a in args[1:]:                       # all others come after sep
-        s += sep + str(a)
-    s += end                     # with end string at the end
-    print(s,end='')              # print the entire string s</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">myprint</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="c1"># handle 1st (if there) special</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>                       <span class="c1"># all others come after sep</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">sep</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">+=</span> <span class="n">end</span>                     <span class="c1"># with end string at the end</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>              <span class="c1"># print the entire string s</span>
+</code></pre></div>
+
 <p>myprint('a',1,'x')         # prints a line
 myprint('a',1,'x',sep='*',end='E') # prints a line but stays at end
 myprint('a',1,'x')         # continues at end of previous line</p>
@@ -2469,8 +2538,10 @@ Likewise, if x is a dict we can replace y = dict(x) by y = copy(x).</p>
 <p>We could also just: import copy (the module) and then write y = copy.copy(x)
 but it is clearer in this case to write "from copy import copy". Here is a
 simple implementation of copy:</p>
-<p>def copy(x):
-    return type(x)(x)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
 <p>which finds the type of x, then calls it as a constructor to construct a new
 object of that type, initialized by x: iterating over all the values in x, as
 we say in examples list list('abc') producing ['a', 'b', 'c'].</p>
@@ -2723,11 +2794,13 @@ print(x)</p>
 <p>the left code prints 4 but the right code prints ABC. In the right code, the
 x outside the comprehension is considered a different variable than the x
 inside the comprehension. The reason is similar to why</p>
-<p>x = 'ABC'
-def f():
-  x = 1
-f()
-print(x)</p>
+<div class="codehilite"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;ABC&#39;</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">f</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
 <p>also prints ABC after the function call. So, a comprehension (like a function)
 creates its own scope for the comprehension's index variable. A for loop does
 not create its own scope, but a comprehension does.</p>
@@ -2784,9 +2857,11 @@ function and a comprehension to create the string to print simply.</p>
 in an iterable into a string using the prefix operand as a separator: so,
 '--'.join( ['My', 'dog', 'has', 'fleas'] )
 returns the string 'My--dog--has--fleas'</p>
-<p>def myprint(*args,sep=' ',end='\n'):
-    s = sep.join(str(x) for x in args)+end       # create string to print
-    print(s,end='')              # print the string</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">myprint</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span><span class="o">+</span><span class="n">end</span>       <span class="c1"># create string to print</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>              <span class="c1"># print the string</span>
+</code></pre></div>
+
 <p>WARNING: Once students learn about comprehensions, sometimes they go a bit
 overboard as they learn about/use this feature. Here are some warning signs:
 When writing a comprehension, you should (1) use the result produced in a later
@@ -2909,16 +2984,20 @@ other kinds of comprehensions.
 a True value.</p>
 <p>Here is how we can write these functions, which search for a False or a True
 respectively:</p>
-<p>def all(iterable):
-    for v in iterable:
-        if v == False:
-            return False  # something was False; return False immediately
-    return True           # nothing   was False; return True after loop</p>
-<p>def any(iterable):
-    for v in iterable:
-        if v == True:
-            return True   # something was True; return True immediately
-    return False          # nothing   was True; return False after loop</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># something was False; return False immediately</span>
+    <span class="k">return</span> <span class="kc">True</span>           <span class="c1"># nothing   was False; return True after loop</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">any</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>   <span class="c1"># something was True; return True immediately</span>
+    <span class="k">return</span> <span class="kc">False</span>          <span class="c1"># nothing   was True; return False after loop</span>
+</code></pre></div>
+
 <p>Read these functions. What does each produce if the iterable produces no values?
 Why is that reasonable?</p>
 <hr />
@@ -2931,11 +3010,13 @@ argument to the sum function; in this case, that value will be returned in the
 special case when the iterable produces no values; if the iterable does produce
 any values, the sum will be the actual sum plus this argument. We can think of
 sum as defined by</p>
-<p>def sum(values, init_sum=0):   alternative definition  def sum(values, sum=0):
-    result = init_sum                          for v in values:
-    for v in values:                            sum += v
-        result += v                     return sum
-    return result</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">init_sum</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>    <span class="n">alternative</span> <span class="n">definition</span>  <span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">init_sum</span>                           <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>                            <span class="nb">sum</span> <span class="o">+=</span> <span class="n">v</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">v</span>                     <span class="k">return</span> <span class="nb">sum</span>
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div>
+
 <p>The simple versions of the max and min functions also each take one iterable
 argument.</p>
 <p>The min/max functions require that the iterable produce values that can be
@@ -2965,11 +3046,13 @@ function is called: the key function returns 4 for both values. We can think of
 the min function operating on an iterable to be written as follows (although we
 will learn Python features later on that simplifies the actual definition of
 this function)</p>
-<p>def min(*args,key = (lambda x : x) ): # default key is the identity function
-    if len(args) == 0:
-        raise TypeError('min: expected &gt;=1 arguments, got 0')
-    if len(args) == 1:     # Assume that if min has just one argument
-        args = args[0]     #   it's iterable, so take the max over its values</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">)</span> <span class="p">):</span> <span class="c1"># default key is the identity function</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;min: expected &gt;=1 arguments, got 0&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>     <span class="c1"># Assume that if min has just one argument</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>     <span class="c1">#   it&#39;s iterable, so take the max over its values</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code>answer = None
 for v in args:
     key\_of\_v = key(v)
@@ -3035,10 +3118,12 @@ c 3</p>
 <p>Using zip, we can write a small function that computes the equivalent of the
 &lt; (less than) operator for strings in Python (see the discussion above about
 the meaning of &lt; for strings).</p>
-<p>def less_than(s1 : str, s2 : str)-&gt; bool:
-    for c1,c2 in zip(s1,s2):   # examine 1st, 2nd, ... characters of each string
-        if c1 != c2:           # if current characters are different
-            return c1 &lt; c2     #   compute result by comparing characters</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">less_than</span><span class="p">(</span><span class="n">s1</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">s2</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">c1</span><span class="p">,</span><span class="n">c2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">):</span>   <span class="c1"># examine 1st, 2nd, ... characters of each string</span>
+        <span class="k">if</span> <span class="n">c1</span> <span class="o">!=</span> <span class="n">c2</span><span class="p">:</span>           <span class="c1"># if current characters are different</span>
+            <span class="k">return</span> <span class="n">c1</span> <span class="o">&lt;</span> <span class="n">c2</span>     <span class="c1">#   compute result by comparing characters</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code># <span class="k">if</span> <span class="nv">all</span> <span class="nv">character</span> <span class="nv">from</span> <span class="nv">the</span> <span class="nv">shorter</span> <span class="nv">are</span> <span class="nv">the</span> <span class="nv">same</span> <span class="ss">(</span><span class="nv">as</span> <span class="nv">in</span> <span class="s1">&#39;</span><span class="s">a</span><span class="s1">&#39;</span> <span class="nv">and</span> <span class="s1">&#39;</span><span class="s">ab</span><span class="s1">&#39;</span><span class="ss">)</span>
 # <span class="k">return</span> <span class="nv">a</span> <span class="nb">result</span> <span class="nv">based</span> <span class="nv">on</span> <span class="nv">the</span> <span class="nv">length</span> <span class="nv">of</span> <span class="nv">the</span> <span class="nv">strings</span>
 <span class="k">return</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">s1</span><span class="ss">)</span><span class="o">&lt;</span><span class="nv">len</span><span class="ss">(</span><span class="nv">s2</span><span class="ss">)</span>
@@ -3093,8 +3178,10 @@ discussion of argument/paramteter binding above, which includes *args but
 doesn't include **kargs) they are all put in a dictionary that is stored in the
 last parameter named kargs.</p>
 <p>So, imagine we define the following function</p>
-<p>def f(a,b,**kargs):
-  print(a,b,kargs)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">kargs</span><span class="p">)</span>
+</code></pre></div>
+
 <p>and call it by</p>
 <p>f(c=3,a=1,b=2,d=4)</p>
 <p>it prints: 1 2 {'c': 3, 'd': 4}</p>
@@ -3115,8 +3202,10 @@ discussing how to (1) call methods in decorators and (2) call overridden
 methods using inheritance much later in the quarter.</p>
 <p>Note that to write a perfectly general function that is called with any kinds
 of (legal) arguments we can write</p>
-<p>def g(*args,**kargs):
-  print(args,kargs)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">,</span><span class="n">kargs</span><span class="p">)</span>
+</code></pre></div>
+
 <p>Now, any legal call of g (one with any legal combination of positional and
 named arguments) will populate the *args and **kargs structures appropriately.</p>
 <p>Calling</p>
@@ -3125,10 +3214,14 @@ g(a=1,b=2,c=3,d=4) prints () {'c': 3, 'b': 2, 'a': 1, 'd': 4}</p>
 <p>Generally, when a parameter name is prefixed by * and ** in a function header,
 we omit the prefix when we use the parameter name inside the function. But
 there are times where use use the * and ** prefixes.</p>
-<p>def h(a,b,c,d):
-    print(a,b,c,d)</p>
-<p>def i(*args,**kargs):
-  h(*args,**kargs)</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">i</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+  <span class="n">h</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+</code></pre></div>
+
 <p>The arguments *args and **kargs in the call of h expand the args tuple to
 be positional arguments and the **kargs dictionary to be named arguments</p>
 <p>Calling</p>
@@ -3454,15 +3547,17 @@ specific exception to handle, and what to do when that exception is raised. In
 fact, int('x') raises the ValueError exception, so I use ValueError in the
 except clause below to be specific, and not accidentally handle any other kind
 of exception.</p>
-<p>def prompt_for_int(prompt_text):
-    while True:
-        try:
-            response = input(prompt_text+': ')    # response is used in except
-            answer = int(response)
-            return answer
-        except ValueError:
-            print('  You bozo, you entered "',response,'"',sep='')
-        print('  That is not a legal int')</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">prompt_for_int</span><span class="p">(</span><span class="n">prompt_text</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt_text</span><span class="o">+</span><span class="s1">&#39;: &#39;</span><span class="p">)</span>    <span class="c1"># response is used in except</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">answer</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  You bozo, you entered &quot;&#39;</span><span class="p">,</span><span class="n">response</span><span class="p">,</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  That is not a legal int&#39;</span><span class="p">)</span>
+</code></pre></div>
+
 <p>print(prompt_for_int('Enter a positive number'))</p>
 <p>So, this is an "infinite" while loop, but there is a return statement at the
 bottom of the try-block; if it gets executed, it returns from the function,
@@ -3636,9 +3731,11 @@ between is called. For example</p>
 print( college_age(20) )</p>
 <p>print True because 18 &lt;= 20 &lt;= 22.</p>
 <p>8b. Rewrite the following function</p>
-<p>def running_average2():
-    sum   = 0              # rebound in include_it
-    count = 0              # rebound in include_it</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">running_average2</span><span class="p">():</span>
+    <span class="nb">sum</span>   <span class="o">=</span> <span class="mi">0</span>              <span class="c1"># rebound in include_it</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>              <span class="c1"># rebound in include_it</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code>def include\_it(x):
     nonlocal sum,count # allow rebinding of locals in outer function&#39;s scope
     sum += x           # rebind sum
