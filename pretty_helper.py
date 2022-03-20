@@ -148,6 +148,7 @@ def find_diagrams(lines):
         if lines[i][0] == 'text':
             # Assume diagram lines usually start with a tab.
             if lines[i][1][0:2] == '  ':
+                # print(lines[i][1])                # never detects a diagram
                 # Search forward for a blank line.
                 break_flag = False
                 block_end = search_forwards(lines, i)
@@ -159,6 +160,7 @@ def find_diagrams(lines):
                 if not break_flag:
                     for j in range(i+1, block_end-1):
                         lines[j][0] = 'diagram'
+                        print(lines[j][1])
                     lines[i][0] = 'diagram-start'
                     lines[block_end-1][0] = 'diagram-end'
                 i = block_end + 1
@@ -191,7 +193,7 @@ def apply_line_formatting(lines):
     headers = []
     while i < len(lines):
         if lines[i][0] == 'text':
-            pass
+            lines[i][1] = lines[i][1].decode('utf-8')
         elif lines[i][0] == 'pagebreak':
             lines[i][1] = '***'
         elif lines[i][0] == 'header':

@@ -20,14 +20,6 @@ Syntax<br>
     <h1><div align=center>        Executing Code in The Python Virtual Machine</div></h1>
 <hr />
 <h2><a name="top"></a> Table of Contents</h2>
-<ol>
-<li><a href="#anchor-1">Basics: </a></li>
-<li><a href="#anchor-2">The Python Virtual Machine (PVM) and an example trivial calculation</a></li>
-<li><a href="#anchor-3">The dis function in the dis module</a></li>
-<li><a href="#anchor-4">Operation/Byte Codes</a></li>
-<li><a href="#anchor-5">Here is a slightly more interesting function. It contains both a conditional/if</a></li>
-<li><a href="#anchor-6">Return to Analysis of Algorithms</a></li>
-</ol>
 <hr />
 <p>Levels of abstraction are important in computing. We can look at a computer
 (and the software it runs) at many levels of abstraction: as quantum devices
@@ -88,32 +80,25 @@ sparse. So I put together this lecture based on general principles and the
 documentation I could find. There is much more information available for the
 Java virtual machine.</p>
 <hr />
-<h2><a name="anchor-1"></a>Basics:</h2>
-<p>[<a href="#top">top</a>]</p>
+<p>Basics: </p>
 <p>Every function object (what we are mostly concerned with in this lecture) is
 associated with 3 tuples:</p>
-<div class="codehilite"><pre><span></span>  (1) its local variable names including parameters (in .__code__.co_varnames)
+<p>(1) its local variable names including parameters (in .__code__.co_varnames)
   (2) its global names (in .__code__.co_names)
-  (3) it constant (in .__code__.co_consts)
-</pre></div>
-
-
+  (3) it constant (in .__code__.co_consts)</p>
 <p>These tuples are built at the time Python defines the function and they are
 stored in the __code__ object associated with the function.</p>
 <p>For example, if we define</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">minimum</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="bp">None</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">:</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">v</span>
-    <span class="k">return</span> <span class="n">m</span>
-</pre></div>
-
-
+<p>def minimum(alist):
+    m = None if len(alist) == 0 else alist[0]
+    for v in alist[1:]:
+        if v &lt; m:
+            m = v
+    return m</p>
 <p>Then,
-      minimum.<strong>code</strong>.co<em>varnames is ('alist', 'm', 'v')
-      minimum.<strong>code</strong>.co</em>names is    ('len', 'None')
-      minimum.<strong>code</strong>.co_consts is   (None, 0, 1)</p>
+  minimum.__code__.co_varnames is ('alist', 'm', 'v')
+  minimum.__code__.co_names is    ('len', 'None')
+  minimum.__code__.co_consts is   (None, 0, 1)</p>
 <p>Load operations (e.g., LOAD_FAST, LOAD_GLOBAL, LOAD_CONST which are all
 discussed in more detail below) are followed by an integer that indexes these
 tuples. So for example, in the function addup addup.__code__.co_varnames is the
@@ -122,8 +107,7 @@ stack the value the name alist refers to. LOAD_FAST  1 loads/pushes onto the
 stack the value the name sum refers to. LOAD_FAST  2 loads/pushes onto the
 stack the value the name v refers to.</p>
 <hr />
-<h2><a name="anchor-2"></a>The Python Virtual Machine (PVM) and an example trivial calculation</h2>
-<p>[<a href="#top">top</a>]</p>
+<p>The Python Virtual Machine (PVM) and an example trivial calculation</p>
 <p>The main data structure in the PVM is the "regular" stack (which is like a
 restricted a list push=append, pop=pop). A stack's primary operations are
 load/push and store/pop. We load/push a value on the top of an upwardly-growing
@@ -146,142 +130,130 @@ for 'a' is 1, the value for 'b' is 2, the value for 'c' is 3, and the value for
 'd' is None. Generally the value for a name at index i in the co_varnames tuple
 is stored in index i in the tuple of actual values.</p>
 <p>As we will see in more detail below the meaning of </p>
-<div class="codehilite"><pre><span></span>  LOAD_FAST N
+<p>LOAD_FAST N
     load/push onto the stack the value stored in co_varnames[N],
-    written stackp += 1, stack[stackp] = co_varnames[N]
-
-  STORE_FAST N
+    written stackp += 1, stack[stackp] = co_varnames[N] </p>
+<p>STORE_FAST N
     store/pop the value on the top of the stack into co_varnames[N],
-    written co_varnames[N] = stack[stackp], and stackp -= 1
-
-  BINARY_MULTIPLY
+    written co_varnames[N] = stack[stackp], and stackp -= 1</p>
+<p>BINARY_MULTIPLY
     load/push onto the stack the * of the two values on the top,
     written stack[stackp-1] = stack[stackp-1] * stack[stackp]; stackp -= 1
-    (turns the two values on the top of the stack into their product)
-
-  BINARY_ADD
+    (turns the two values on the top of the stack into their product)</p>
+<p>BINARY_ADD
     load/push onto the stack the + of the two values on the top
     written stack[stackp-1] = stack[stackp-1] + stack[stackp]; stackp -= 1
-    (turns the two values on the top of the stack into their sum)
-</pre></div>
-
-
+    (turns the two values on the top of the stack into their sum)</p>
 <p>The PVM code for d = a+b*c is</p>
-<div class="codehilite"><pre><span></span>  LOAD_FAST 0
+<p>LOAD_FAST 0
   LOAD_FAST 1
   LOAD_FAST 2
   BINARY_MULTIPLY
   BINARY_ADD
-  STORE_FAST 3
-</pre></div>
-
-
+  STORE_FAST 3</p>
 <p>Here is what happens step by step.</p>
 <p>Initially
-             ....
-       +--------------------+
-     3 |                    |
-       +--------------------+
-     2 |                    |
-       +--------------------+
-     1 |                    |
-       +--------------------+
-     0 |                    |
-       +--------------------+
-    stack (with stackp = -1, meaning is empty stack)</p>
+         ....
+   +--------------------+
+ 3 |                    |
+   +--------------------+
+ 2 |                    |
+   +--------------------+
+ 1 |                    |
+   +--------------------+
+ 0 |                    |
+   +--------------------+
+stack (with stackp = -1, meaning is empty stack)</p>
 <p>execute LOAD_FAST 0
-             ....
-       +--------------------+
-     3 |                    |
-       +--------------------+
-     2 |                    |
-       +--------------------+
-     1 |                    |
-       +--------------------+
-     0 | 1: value of a      |
-       +--------------------+
-    stack (with stackp = 0)</p>
+         ....
+   +--------------------+
+ 3 |                    |
+   +--------------------+
+ 2 |                    |
+   +--------------------+
+ 1 |                    |
+   +--------------------+
+ 0 | 1: value of a      |
+   +--------------------+
+stack (with stackp = 0)</p>
 <p>execute LOAD_FAST 1
-             ....
-       +--------------------+
-     3 |                    |
-       +--------------------+
-     2 |                    |
-       +--------------------+
-     1 | 2: value of b      |
-       +--------------------+
-     0 | 1: value of a      |
-       +--------------------+
-    stack (with stackp = 1)</p>
+         ....
+   +--------------------+
+ 3 |                    |
+   +--------------------+
+ 2 |                    |
+   +--------------------+
+ 1 | 2: value of b      |
+   +--------------------+
+ 0 | 1: value of a      |
+   +--------------------+
+stack (with stackp = 1)</p>
 <p>execute LOAD_FAST 2
-             ....
-       +--------------------+
-     3 |                    |
-       +--------------------+
-     2 | 3: value of c      |
-       +--------------------+
-     1 | 2: value of b      |
-       +--------------------+
-     0 | 1: value of a      |
-       +--------------------+
-    stack (with stackp = 2)</p>
+         ....
+   +--------------------+
+ 3 |                    |
+   +--------------------+
+ 2 | 3: value of c      |
+   +--------------------+
+ 1 | 2: value of b      |
+   +--------------------+
+ 0 | 1: value of a      |
+   +--------------------+
+stack (with stackp = 2)</p>
 <p>execute BINARY_MULTIPLY
-             ....
-       +--------------------+
-     3 |                    |
-       +--------------------+
-     2 |                    |
-       +--------------------+
-     1 | 6: value of b*c    |
-       +--------------------+
-     0 | 1: value of a      |
-       +--------------------+
-    stack (with stackp = 1)</p>
+         ....
+   +--------------------+
+ 3 |                    |
+   +--------------------+
+ 2 |                    |
+   +--------------------+
+ 1 | 6: value of b*c    |
+   +--------------------+
+ 0 | 1: value of a      |
+   +--------------------+
+stack (with stackp = 1)</p>
 <p>execute BINARY_ADD
-             ....
-       +--------------------+
-     3 |                    |
-       +--------------------+
-     2 |                    |
-       +--------------------+
-     1 |                    |
-       +--------------------+
-     0 |7: value of a+b*c   |
-       +--------------------+
-    stack (with stackp = 0)</p>
+         ....
+   +--------------------+
+ 3 |                    |
+   +--------------------+
+ 2 |                    |
+   +--------------------+
+ 1 |                    |
+   +--------------------+
+ 0 |7: value of a+b*c   |
+   +--------------------+
+stack (with stackp = 0)</p>
 <p>execute STORE_FAST 3
-             ....
-       +--------------------+
-     3 |                    |
-       +--------------------+
-     2 |                    |
-       +--------------------+
-     1 |                    |
-       +--------------------+
-     0 |                    |
-       +--------------------+
-    stack (with stackp = -1)</p>
+         ....
+   +--------------------+
+ 3 |                    |
+   +--------------------+
+ 2 |                    |
+   +--------------------+
+ 1 |                    |
+   +--------------------+
+ 0 |                    |
+   +--------------------+
+stack (with stackp = -1)</p>
 <p>At this point d's value is 7, the value that was at the top of the stack when
 STORE_FAST was executed. The actual values for these names are stored in the
 tuple (1, 2, 3, 7).</p>
 <p>Problem: show (by drawing what I drew above) how the following instructions
 compute d = (a+b)*c</p>
-<div class="codehilite"><pre><span></span>  LOAD_FAST 0
+<p>LOAD_FAST 0
   LOAD_FAST 1
   BINARY_ADD
   LOAD_FAST 2
   BINARY_MULTIPLY
-  STORE_FAST 3
-</pre></div>
-
-
+  STORE_FAST 3</p>
 <p>Any expression can be translated into similar code for the PVM to evaulate its
 value.</p>
 <hr />
 <p>Control (the fetch/execute cycle) of the PVM</p>
 <p>Each instruction (some of which are shown above) in the PVM consists of 1 or 3
 bytes of information (a byte is 8 bits, and can represent numbers from 0 to
-1. . The first byte is the operation or byte code; the second two bytes are
+255). The first byte is the operation or byte code; the second two bytes are
 the operand for that byte code (but not all byte codes require operands:
 LOAD_FAST does; BINARY_ADD doesn't). Two bytes (16 bits) can represent the
 numbers 0 to 65,536: so it is probably the case that Python function cannot
@@ -289,18 +261,15 @@ have more than 65,536 different local variable names.</p>
 <p>The instructions are stored in memory: think of memory too as a kind of list
 named m which stores sequential data in one location after the other. We can
 illustrate this by writing the instruction sequence above as follows:</p>
-<div class="codehilite"><pre><span></span>  Memory     Instruction
-  Location   
---------------------------
-   0         LOAD_FAST 0
+<p>Memory     Instruction
+  Location   </p>
+<hr />
+<p>0         LOAD_FAST 0
    3         LOAD_FAST 1
    6         LOAD_FAST 2
    9         BINARY_MULTIPLY
   10         BINARY_ADD
-  11         STORE_FAST 3
-</pre></div>
-
-
+  11         STORE_FAST 3</p>
 <p>Note that the first instruction is stored in m[0], and each subsequent
 instruction is stored in a location that is 3 higher (if the instruction has an
 explicit operand, as the load/store instructions do; most instructions have
@@ -363,8 +332,7 @@ sections, changing the locus of execution of the code).</p>
 see how the PVM executes more complicated code, specified by full Python
 functions.</p>
 <hr />
-<h2><a name="anchor-3"></a>The dis function in the dis module</h2>
-<p>[<a href="#top">top</a>]</p>
+<p>The dis function in the dis module</p>
 <p>As described briefly in the intoduction, we can print a symbolic/annotated
 desciption of any Python function (and module/class too; but in this lecture
 note we will stick with just functions) by using the dis function in the dis.py
@@ -373,56 +341,42 @@ form that is readable by people.</p>
 <p>Here is an example function (with line numbers) and the result dis.dis displays
 for it). All the operation codes and their meanings are covered in detail in
 the next section; we will look ahead at the relevant ones.</p>
-<div class="codehilite"><pre><span></span><span class="mi">1</span> <span class="k">def</span> <span class="nf">addup</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
-<span class="mi">2</span>     <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="mi">3</span>     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">:</span>
-<span class="mi">4</span>         <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">v</span>
-<span class="mi">5</span>    <span class="k">return</span> <span class="nb">sum</span>
-</pre></div>
-
-
+<p>1 def addup(alist):
+2     sum = 0
+3     for v in alist:
+4         sum = sum + v
+5    return sum</p>
 <p>Actually, I wrote the following simple function to show useful information
 about any function object (its name, its three tuples, and the dis information:)
 labelled.</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">func_obj</span><span class="p">(</span><span class="n">fo</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">fo</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;  co_varnames:&#39;</span><span class="p">,</span><span class="n">fo</span><span class="o">.</span><span class="n">__code__</span><span class="o">.</span><span class="n">co_varnames</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;  co_names   :&#39;</span><span class="p">,</span><span class="n">fo</span><span class="o">.</span><span class="n">__code__</span><span class="o">.</span><span class="n">co_names</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;  co_consts  :&#39;</span><span class="p">,</span><span class="n">fo</span><span class="o">.</span><span class="n">__code__</span><span class="o">.</span><span class="n">co_consts</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Source Line  m  operation/byte-code      operand (useful name/number)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="mi">69</span><span class="o">*</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
-    <span class="n">dis</span><span class="o">.</span><span class="n">dis</span><span class="p">(</span><span class="n">fo</span><span class="p">)</span>
-</pre></div>
-
-
+<p>def func_obj(fo):
+    print(fo.__name__)
+    print('  co_varnames:',fo.__code__.co_varnames)
+    print('  co_names   :',fo.__code__.co_names)
+    print('  co_consts  :',fo.__code__.co_consts,'\n')
+    print('Source Line  m  operation/byte-code      operand (useful name/number)\n'+69*'-')
+    dis.dis(fo)</p>
 <p>calling func_obj(addup) prints</p>
 <p>addup
-      co<em>varnames: ('alist', 'sum', 'v')
-      co</em>names   : ()
-      co_consts  : (None, 0)</p>
+  co_varnames: ('alist', 'sum', 'v')
+  co_names   : ()
+  co_consts  : (None, 0)</p>
 <h2>Source Line  m  op/byte-code             operand (useful name/number)</h2>
-<div class="codehilite"><pre><span></span>  2           0 LOAD_CONST               1 (0) 
-              3 STORE_FAST               1 (sum)
-
-  3           6 SETUP_LOOP              24 (to 33) 
+<p>2           0 LOAD_CONST               1 (0) 
+              3 STORE_FAST               1 (sum) </p>
+<p>3           6 SETUP_LOOP              24 (to 33) 
               9 LOAD_FAST                0 (alist) 
-             12 GET_ITER             
+             12 GET_ITER           <br />
         &gt;&gt;   13 FOR_ITER                16 (to 32) 
-             16 STORE_FAST               2 (v)
-
-  4          19 LOAD_FAST                1 (sum) 
+             16 STORE_FAST               2 (v) </p>
+<p>4          19 LOAD_FAST                1 (sum) 
              22 LOAD_FAST                2 (v) 
-             25 BINARY_ADD           
+             25 BINARY_ADD         <br />
              26 STORE_FAST               1 (sum) 
              29 JUMP_ABSOLUTE           13 
-        &gt;&gt;   32 POP_BLOCK
-</pre></div>
-
-
-<div class="codehilite"><pre><span></span>  <span class="mi">5</span>     <span class="o">&gt;&gt;</span>   <span class="mi">33</span> <span class="n">LOAD_FAST</span>                <span class="mi">1</span> <span class="p">(</span><span class="nb">sum</span><span class="p">)</span> 
-             <span class="mi">36</span> <span class="n">RETURN</span>\<span class="n">_VALUE</span>         
-</pre></div>
-
-
+        &gt;&gt;   32 POP_BLOCK            </p>
+<p>5     &gt;&gt;   33 LOAD_FAST                1 (sum) 
+             36 RETURN_VALUE         </p>
 <p>Note that any line prefaced by &gt;&gt; means that some other instruction in the
 function can jump to it (start executing code at it). Jumping in the PVM (by
 setting pc) is how loops and if statements in Python do their computation.</p>
@@ -433,34 +387,33 @@ see the exact description of each instruction in the next section.</p>
  m[ 3]: stores the value 0 into sum (co_varnames[1])</p>
 <p>Line 3:
  m[ 6]: setup for the loop by pushing the size of the loop onto the block stack
-              (recall that we won't be doing anything with the block stack)
-     m[ 9]: loads the value of alist (co<em>varnames[0]) on the stack
-     m[12]: replaces its value on the stack by its iterator (by popping and pushing)
-     m[13]: loads the next iterator value on the stack, jumping to m[32] if
-               StopIteration raised
-              (code in m[29] jumps back to this location to make the loop)
-     m[16]: stores the next value into v (co</em>varnames[2]), popping it off the stack</p>
+          (recall that we won't be doing anything with the block stack)
+ m[ 9]: loads the value of alist (co_varnames[0]) on the stack
+ m[12]: replaces its value on the stack by its iterator (by popping and pushing)
+ m[13]: loads the next iterator value on the stack, jumping to m[32] if
+           StopIteration raised
+          (code in m[29] jumps back to this location to make the loop)
+ m[16]: stores the next value into v (co_varnames[2]), popping it off the stack</p>
 <p>Line 4:
  m[19]: loads the value of sum (co_varnames[1]) on the stack
  m[22]: loads the value of v (co_varnames[2]) on the stack
  m[25]: removes from stack/adds two values, pushes the result on the stack
  m[26]: stores the value into sum (co_varnames[1]), popping it off the stack
  m[29]: sets pc to 13, so the next instruction executed in at m[13]
-              (jumps back to a previous location to make the loop loop)
-     m[32]: pops what m[6] pushed onto the block stack
-              (recall that we won't be doing anything with the block stack)
-              (code in m[13] jumps here, on StopIteration, terminating the loop)</p>
+          (jumps back to a previous location to make the loop loop)
+ m[32]: pops what m[6] pushed onto the block stack
+          (recall that we won't be doing anything with the block stack)
+          (code in m[13] jumps here, on StopIteration, terminating the loop)</p>
 <p>Line 5:
  m[33]: load the value of sum (co_varnames[1]) on the stack to return
  m[36]: return from the function with the result on the top of the stack</p>
 <hr />
-<h2><a name="anchor-4"></a>Operation/Byte Codes</h2>
-<p>[<a href="#top">top</a>]</p>
+<p>Operation/Byte Codes</p>
 <p>Below is a list of many important operations and how they manipulate the PVM.
 The complete list is available in section 31.12 of the Python documenation. 
 Recall that many operations manipulate stack, stackp, and pc.</p>
 <p>Loading/Storing</p>
-<div class="codehilite"><pre><span></span>  LOAD_CONST   N
+<p>LOAD_CONST   N
     stackp += 1, stack[stackp] = co_consts[N] 
   LOAD_FAST    N
     stackp += 1, stack[stackp] = co_varnames[N] 
@@ -471,23 +424,20 @@ Recall that many operations manipulate stack, stackp, and pc.</p>
   STORE_FAST   N
     co_varnames[N] = stack[stackp], and stackp -= 1
   STORE_GLOBAL N
-    co_names[N] = stack[stackp], and stackp -= 1
-</pre></div>
-
-
+    co_names[N] = stack[stackp], and stackp -= 1</p>
 <p>There are general Load and Store operations that look up names based on the
 the LEGB rules, if Python is unsure where these names will be found. Generally
 it uses the operations above.</p>
 <p>Operators
-      UNARY<em>POSITIVE 
-        stack[stackp] = +stack[stackp]
-      UNARY</em>NEGATIVE 
-        stack[stackp] = -stack[stackp]
-      UNARY<em>NOT 
-        stack[stackp] = not stack[stackp]
-      UNARY</em>INVERT 
-        stack[stackp] = ~stack[stackp]</p>
-<div class="codehilite"><pre><span></span>  BINARY_ADD
+  UNARY_POSITIVE 
+    stack[stackp] = +stack[stackp]
+  UNARY_NEGATIVE 
+    stack[stackp] = -stack[stackp]
+  UNARY_NOT 
+    stack[stackp] = not stack[stackp]
+  UNARY_INVERT 
+    stack[stackp] = ~stack[stackp]</p>
+<p>BINARY_ADD
     stack[stackp-1] = stack[stackp-1] + stack[stackp]; stackp -= 1
   BINARY_SUBTRACT 
     stack[stackp-1] = stack[stackp-1] - stack[stackp]; stackp -= 1
@@ -500,77 +450,59 @@ it uses the operations above.</p>
   BINARY_MODULO 
     stack[stackp-1] = stack[stackp-1] % stack[stackp]; stackp -= 1
   BINARY_POWER 
-    stack[stackp-1] = stack[stackp-1] ** stack[stackp]; stackp -= 1
-
-  BINARY_SUBSCR (indexing)
-    stack[stackp-1] = stack[stackp-1] [ stack[stackp] ]; stackp -= 1
-
-  BINARY_LSHIFT 
+    stack[stackp-1] = stack[stackp-1] ** stack[stackp]; stackp -= 1</p>
+<p>BINARY_SUBSCR (indexing)
+    stack[stackp-1] = stack[stackp-1] [ stack[stackp] ]; stackp -= 1</p>
+<p>BINARY_LSHIFT 
     stack[stackp-1] = stack[stackp-1] &lt;&lt; stack[stackp]; stackp -= 1
   BINARY_RSHIFT 
-    stack[stackp-1] = stack[stackp-1] &gt;&gt; stack[stackp]; stackp -= 1
-
-  BINARY_AND 
+    stack[stackp-1] = stack[stackp-1] &gt;&gt; stack[stackp]; stackp -= 1</p>
+<p>BINARY_AND 
     stack[stackp-1] = stack[stackp-1] &amp; stack[stackp]; stackp -= 1
   BINARY_OR 
     stack[stackp-1] = stack[stackp-1] | stack[stackp]; stackp -= 1
   BINARY_XOR 
-    stack[stackp-1] = stack[stackp-1] ^ stack[stackp]; stackp -= 1
-</pre></div>
-
-
+    stack[stackp-1] = stack[stackp-1] ^ stack[stackp]; stackp -= 1</p>
 <p>There are in-place versions of the binary operators: e.g., x += 1 vs x = x + 1
 I will show the meanin of INPLACE_ADD and just list the others here:</p>
-<div class="codehilite"><pre><span></span>  INPLACE_ADD
-    stack[stackp-1] += stack[stackp]; stackp -= 1
-</pre></div>
-
-
+<p>INPLACE_ADD
+    stack[stackp-1] += stack[stackp]; stackp -= 1</p>
 <p>INPLACE_SUBTRACT, INPLACE_MULTIPLY, INPLACE_FLOOR_DIVIDE, INPLACE_TRUE_DIVIDE,
 INPLACE_MODULO, INPLACE_POWER, INPLACE_LSHIFT, INPLACE_RSHIFT, INPLACE_AND,
 INPLACE_XOR, and INPLACE_OR</p>
 <p>Iteration:</p>
-<div class="codehilite"><pre><span></span>  GET_ITER 
+<p>GET_ITER 
     stack[stackp] = iter(stack[stackp])
   FOR_ITER N
     stackp += 1; stack[stackp] = next(stack[stackp-1])
-      but if StopIteration exception is raised in part 2: pc += N
-
-Jumping (changing the pc from where the next instruction is fetched):
-
-  JUMP_ABSOLUTE     N
+      but if StopIteration exception is raised in part 2: pc += N</p>
+<p>Jumping (changing the pc from where the next instruction is fetched):</p>
+<p>JUMP_ABSOLUTE     N
     pc = N
   JUMP_FORWARD      N
     pc += N
   POP_JUMP_IF_TRUE  N
     if stack[stackp] is True, pc = N (always stackp =- 1)
   POP_JUMP_IF_FALSE N
-    if stack[stackp] is False, pc = N (always stackp =- 1)
-</pre></div>
-
-
+    if stack[stackp] is False, pc = N (always stackp =- 1)</p>
 <p>Calling Functions and Returning/Yielding
-      CALL<em>FUNCTION N
-        The first operand byte is a count of the position arguments: pcount
-        The second operand byte is a count of the keyword arguments: kcount
-        There are kcount values on the top of the stack followed by pcount values
-          followed by the function to call
-        This operation pops all function arguments off the stack to store them into
-          the co</em>varnames tuple, and pops off the the function itself
-        The function should leave its answer on the top of the stack</p>
-<div class="codehilite"><pre><span></span>  RETURN_VALUE
+  CALL_FUNCTION N
+    The first operand byte is a count of the position arguments: pcount
+    The second operand byte is a count of the keyword arguments: kcount
+    There are kcount values on the top of the stack followed by pcount values
+      followed by the function to call
+    This operation pops all function arguments off the stack to store them into
+      the co_varnames tuple, and pops off the the function itself
+    The function should leave its answer on the top of the stack</p>
+<p>RETURN_VALUE
     Return to the location that called this function (its retuned answer on the
-      top of the stack)
-</pre></div>
-
-
+      top of the stack)</p>
 <p>YIELD_VALUE</p>
 <p>In the Library Reference, they use the notation TOS to mean the location at
 the top of the stack, and TOSn to mean n down from the top of the stack. So
 TOS is our stack[stackp] and TOS1 is our stack[stackp-1]</p>
 <hr />
-<h2><a name="anchor-5"></a>Here is a slightly more interesting function. It contains both a conditional/if</h2>
-<p>[<a href="#top">top</a>]
+<p>Here is a slightly more interesting function. It contains both a conditional/if
 statement (lines 4-5) and a conditional expression (line 6), which translate
 into a variety of jump instructions. Also note how the tuple assignment in line
 2 is translated via the UNPACK_SEQUENCE N instruction (which takes any sequence
@@ -586,80 +518,74 @@ stored into sum and the second is stored into count).</p>
 6            count += 1
 7    return sum / (1 if count == 0 else count)</p>
 <p>average_positive
-      co<em>varnames: ('alist', 'sum', 'count', 'v')
-      co</em>names   : ()
-      co_consts  : (None, 0, 1, (0, 0)) </p>
+  co_varnames: ('alist', 'sum', 'count', 'v')
+  co_names   : ()
+  co_consts  : (None, 0, 1, (0, 0)) </p>
 <h2>Source Line  m  operation/byte-code      operand (useful name/number)</h2>
 <p>2            0 LOAD_CONST               3 ((0, 0)) 
-                  3 UNPACK<em>SEQUENCE          2 
-                  6 STORE</em>FAST               1 (sum) 
-                  9 STORE_FAST               2 (count) </p>
+              3 UNPACK_SEQUENCE          2 
+              6 STORE_FAST               1 (sum) 
+              9 STORE_FAST               2 (count) </p>
 <p>3           12 SETUP_LOOP              49 (to 64) 
-                 15 LOAD<em>FAST                0 (alist) 
-                 18 GET</em>ITER           <br />
-            &gt;&gt;   19 FOR<em>ITER                41 (to 63) 
-                 22 STORE</em>FAST               3 (v) </p>
+             15 LOAD_FAST                0 (alist) 
+             18 GET_ITER           <br />
+        &gt;&gt;   19 FOR_ITER                41 (to 63) 
+             22 STORE_FAST               3 (v) </p>
 <p>4           25 LOAD_FAST                3 (v) 
-                 28 LOAD<em>CONST               1 (0) 
-                 31 COMPARE</em>OP               4 (&gt;) 
-                 34 POP<em>JUMP</em>IF_FALSE       19 </p>
+             28 LOAD_CONST               1 (0) 
+             31 COMPARE_OP               4 (&gt;) 
+             34 POP_JUMP_IF_FALSE       19 </p>
 <p>5           37 LOAD_FAST                1 (sum) 
-                 40 LOAD<em>FAST                3 (v) 
-                 43 BINARY</em>ADD         <br />
-                 44 STORE_FAST               1 (sum) </p>
+             40 LOAD_FAST                3 (v) 
+             43 BINARY_ADD         <br />
+             44 STORE_FAST               1 (sum) </p>
 <p>6           47 LOAD_FAST                2 (count) 
-                 50 LOAD<em>CONST               2 (1) 
-                 53 INPLACE</em>ADD        <br />
-                 54 STORE<em>FAST               2 (count) 
-                 57 JUMP</em>ABSOLUTE           19 
-                 60 JUMP<em>ABSOLUTE           19 
-            &gt;&gt;   63 POP</em>BLOCK            </p>
-<div class="codehilite"><pre><span></span> <span class="mi">7</span>      <span class="o">&gt;&gt;</span>   <span class="mi">64</span> <span class="n">LOAD_FAST</span>                <span class="mi">1</span> <span class="p">(</span><span class="nb">sum</span><span class="p">)</span> 
-             <span class="mi">67</span> <span class="n">LOAD_FAST</span>                <span class="mi">2</span> <span class="p">(</span><span class="n">count</span><span class="p">)</span> 
-             <span class="mi">70</span> <span class="n">LOAD_CONST</span>               <span class="mi">1</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span> 
-             <span class="mi">73</span> <span class="n">COMPARE_OP</span>               <span class="mi">2</span> <span class="p">(</span><span class="o">==</span><span class="p">)</span> 
-             <span class="mi">76</span> <span class="n">POP_JUMP_IF_FALSE</span>       <span class="mi">85</span> 
-             <span class="mi">79</span> <span class="n">LOAD_CONST</span>               <span class="mi">2</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> 
-             <span class="mi">82</span> <span class="n">JUMP_FORWARD</span>             <span class="mi">3</span> <span class="p">(</span><span class="n">to</span> <span class="mi">88</span><span class="p">)</span> 
-        <span class="o">&gt;&gt;</span>   <span class="mi">85</span> <span class="n">LOAD_FAST</span>                <span class="mi">2</span> <span class="p">(</span><span class="n">count</span><span class="p">)</span> 
-        <span class="o">&gt;&gt;</span>   <span class="mi">88</span> <span class="n">BINARY_TRUE_DIVIDE</span>   
-             <span class="mi">89</span> <span class="n">RETURN</span>\<span class="n">_VALUE</span>         
-</pre></div>
-
-
+             50 LOAD_CONST               2 (1) 
+             53 INPLACE_ADD        <br />
+             54 STORE_FAST               2 (count) 
+             57 JUMP_ABSOLUTE           19 
+             60 JUMP_ABSOLUTE           19 
+        &gt;&gt;   63 POP_BLOCK            </p>
+<p>7      &gt;&gt;   64 LOAD_FAST                1 (sum) 
+             67 LOAD_FAST                2 (count) 
+             70 LOAD_CONST               1 (0) 
+             73 COMPARE_OP               2 (==) 
+             76 POP_JUMP_IF_FALSE       85 
+             79 LOAD_CONST               2 (1) 
+             82 JUMP_FORWARD             3 (to 88) 
+        &gt;&gt;   85 LOAD_FAST                2 (count) 
+        &gt;&gt;   88 BINARY_TRUE_DIVIDE <br />
+             89 RETURN_VALUE         </p>
 <p>Please feel free to type in all sorts of small functions to see how they are
 translated to run on the PVM. The project folder that you can download includes
 some simple functions and the func_obj function.</p>
 <p>Note that the two simple functions shown did not call functions on their inside:
 see addup1 in the project folder, which uese range and len to iterate of the
 list indexes to compute the sum. The relevant line in the function is</p>
-<div class="codehilite"><pre><span></span>for i in range(len(alist)):
-</pre></div>
-
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="nv">i</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">len</span><span class="ss">(</span><span class="nv">alist</span><span class="ss">))</span>:
+</code></pre></div>
 
 <p>The local/global names are</p>
-<div class="codehilite"><pre><span></span>  co_varnames: (&#39;alist&#39;, &#39;sum&#39;, &#39;i&#39;)
-  co_names   : (&#39;range&#39;, &#39;len&#39;)
-</pre></div>
-
-
+<p>co_varnames: ('alist', 'sum', 'i')
+  co_names   : ('range', 'len')</p>
 <p>and sequence of instructions is</p>
-<div class="codehilite"><pre><span></span>              9 LOAD_GLOBAL              0 (range) 
-             12 LOAD_GLOBAL              1 (len) 
-             15 LOAD_FAST                0 (alist) 
-             18 CALL_FUNCTION            1 (1 positional, 0 keyword pair) 
-             21 CALL_FUNCTION            1 (1 positional, 0 keyword pair) 
-             24 GET_ITER             
-        &gt;&gt;   25 FOR_ITER                20 (to 48) 
-             28 STORE_FAST               2 (i)
-</pre></div>
-
+<div class="codehilite"><pre><span></span><code>          9 LOAD\_GLOBAL              0 (range) 
+         12 LOAD\_GLOBAL              1 (len) 
+         15 LOAD\_FAST                0 (alist) 
+         18 CALL\_FUNCTION            1 (1 positional, 0 keyword pair) 
+         21 CALL\_FUNCTION            1 (1 positional, 0 keyword pair) 
+         24 GET\_ITER             
+    &gt;&gt;   25 FOR\_ITER                20 (to 48) 
+         28 STORE\_FAST               2 (i)
+</code></pre></div>
 
 <p>Here the range function, to call last, is loaded/pushed on the stack; then the
 len function, to call first, is loaded/pushed on the stack; then the alist
 variable is pushed on the stack. The stack looks as follows</p>
-<div class="codehilite"><pre><span></span>         ....
-   +--------------------+
+<div class="codehilite"><pre><span></span><code>     ....
+</code></pre></div>
+
+<p>+--------------------+
  3 |                    |
    +--------------------+
  2 | alist value        |
@@ -668,15 +594,14 @@ variable is pushed on the stack. The stack looks as follows</p>
    +--------------------+
  0 | range function     |
    +--------------------+
-stack (with stackp = 2)
-</pre></div>
-
-
+stack (with stackp = 2)</p>
 <p>The first CALL_FUNCTION 1 says using 1 positional argument (stackp=2), call the
 function specified at stackp-1 (len) on the stack, leaving the answer on the
 stack. The stack looks as follows</p>
-<div class="codehilite"><pre><span></span>         ....
-   +--------------------+
+<div class="codehilite"><pre><span></span><code>     ....
+</code></pre></div>
+
+<p>+--------------------+
  3 |                    |
    +--------------------+
  2 |                    |
@@ -685,15 +610,14 @@ stack. The stack looks as follows</p>
    +--------------------+
  0 | range function     |
    +--------------------+
-stack (with stackp = 1)
-</pre></div>
-
-
+stack (with stackp = 1)</p>
 <p>The second CALL_FUNCTION 1 says using 1 positional argument (stackp=1), call the
 function specified at stackp-1 (range) on the stack, leaving the answer on the
 stack. The stack looks as follows</p>
-<div class="codehilite"><pre><span></span>         ....
-   +--------------------+
+<div class="codehilite"><pre><span></span><code>     ....
+</code></pre></div>
+
+<p>+--------------------+
  3 |                    |
    +--------------------+
  2 |                    |
@@ -702,71 +626,55 @@ stack. The stack looks as follows</p>
    +--------------------+
  0 | range(len(alist))  | The range iterator 
    +--------------------+
-stack (with stackp = 1)
-</pre></div>
-
-
+stack (with stackp = 1)</p>
 <p>Then GET_ITER is called to do the iteration, which uses FOR_ITER to produce
 the first value (which is stored in local variable i).</p>
 <hr />
-<h2><a name="anchor-6"></a>Return to Analysis of Algorithms</h2>
-<p>[<a href="#top">top</a>]</p>
+<p>Return to Analysis of Algorithms:</p>
 <p>We can use the result of dis to compute the worst case count of the numnber of
 instructions executed in a function. Let's return to (and review) the addup
 function for our analysis.</p>
-<div class="codehilite"><pre><span></span><span class="mi">1</span> <span class="k">def</span> <span class="nf">addup</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
-<span class="mi">2</span>     <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="mi">3</span>     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">:</span>
-<span class="mi">4</span>         <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">v</span>
-<span class="mi">5</span>    <span class="k">return</span> <span class="nb">sum</span>
-</pre></div>
-
-
+<p>1 def addup(alist):
+2     sum = 0
+3     for v in alist:
+4         sum = sum + v
+5    return sum</p>
 <p>addup
-      co<em>varnames: ('alist', 'sum', 'v')
-      co</em>names   : ()
-      co_consts  : (None, 0)</p>
+  co_varnames: ('alist', 'sum', 'v')
+  co_names   : ()
+  co_consts  : (None, 0)</p>
 <h2>Source Line  m  op/byte-code             operand (useful name/number)</h2>
-<div class="codehilite"><pre><span></span>  2           0 LOAD_CONST               1 (0) 
-              3 STORE_FAST               1 (sum)
-
-  3           6 SETUP_LOOP              24 (to 33) 
+<p>2           0 LOAD_CONST               1 (0) 
+              3 STORE_FAST               1 (sum) </p>
+<p>3           6 SETUP_LOOP              24 (to 33) 
               9 LOAD_FAST                0 (alist) 
-             12 GET_ITER             
+             12 GET_ITER           <br />
         &gt;&gt;   13 FOR_ITER                16 (to 32) 
-             16 STORE_FAST               2 (v)
-
-  4          19 LOAD_FAST                1 (sum) 
+             16 STORE_FAST               2 (v) </p>
+<p>4          19 LOAD_FAST                1 (sum) 
              22 LOAD_FAST                2 (v) 
-             25 BINARY_ADD           
+             25 BINARY_ADD         <br />
              26 STORE_FAST               1 (sum) 
              29 JUMP_ABSOLUTE           13 
-        &gt;&gt;   32 POP_BLOCK
-</pre></div>
-
-
-<div class="codehilite"><pre><span></span>  <span class="mi">5</span>     <span class="o">&gt;&gt;</span>   <span class="mi">33</span> <span class="n">LOAD_FAST</span>                <span class="mi">1</span> <span class="p">(</span><span class="nb">sum</span><span class="p">)</span> 
-             <span class="mi">36</span> <span class="n">RETURN</span>\<span class="n">_VALUE</span>         
-</pre></div>
-
-
+        &gt;&gt;   32 POP_BLOCK            </p>
+<p>5     &gt;&gt;   33 LOAD_FAST                1 (sum) 
+             36 RETURN_VALUE         </p>
 <p>Here is how to account for the number of instructions executed when Python runs
 this function. As always we will assume that the len(alist) is N. Here there are
 no conditional statements so the worst case always executes all the code in the
 function (and the loop N times).</p>
 <p>Instructions done once (not in the loop proper)
-      2 for line 2, code before the loop: initialize sum
-      3 for line 3, setup for the loop; not repeated in the loop proper at m[13]
-      1 for line 4, at m[32], jumped to when StopIteration exception is raised
-      2 for line 5, code after the loop: load/push sum on the stack and return</p>
+  2 for line 2, code before the loop: initialize sum
+  3 for line 3, setup for the loop; not repeated in the loop proper at m[13]
+  1 for line 4, at m[32], jumped to when StopIteration exception is raised
+  2 for line 5, code after the loop: load/push sum on the stack and return</p>
 <p>Instructions done in the loop
-      2 for line 3, m[13] and m[16]; note loop back to m[13]
-      5 for line 4, sum = sum + v and jump back to m[13] to get next iterator value</p>
+  2 for line 3, m[13] and m[16]; note loop back to m[13]
+  5 for line 4, sum = sum + v and jump back to m[13] to get next iterator value</p>
 <p>Finally, note that the instruction at m[13] is executed N+1 times: N times it
 continues in the loop body and 1 time it raises StopIteration and jumps to
 m[32].</p>
 <p>So, the I(N) is 8 (instructions done once) + 7N (instructions done in the loop)
  + 1 (m[13] done on N+1 iteration raising StopInteration) instructions.</p>
-<div class="codehilite"><pre><span></span><span class="n">I</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">=</span> <span class="mi">7</span><span class="n">N</span> <span class="o">+</span> <span class="mi">9</span> <span class="n">instructions</span>
-</pre></div>
+<p>I(N) = 7N + 9 instructions</p>
 </html>

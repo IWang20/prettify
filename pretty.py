@@ -67,7 +67,7 @@ Syntax<br>
     filename = filename[:-4]    # Remove the "".txt"
 
     # Write the .html file
-    with open(filename+'.html', 'wb') as htmlfile:
+    with open(filename+'.html', 'w') as htmlfile:
         # htmlfile.write(markdown(text, smart_emphasis = False))
         htmlfile.write(html)
 
