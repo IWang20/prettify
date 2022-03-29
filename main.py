@@ -20,7 +20,7 @@ for filename in os.listdir(note_path):
         path = note_path + filename
         print ('Formatting ' + path + ' ...')
         # try:
-        headers = pretty.pretty(note_path + filename, MAGIC_CODE_RATIO = 0.05, write_md = False, debugging = False)
+        headers = pretty.pretty(note_path + filename, MAGIC_CODE_RATIO = 0.05, write_md = False, debugging = True)
         toc.append([filename, headers])
         # except Exception as e:
         # print ('\tERROR:', e) 

@@ -75,6 +75,7 @@ Syntax<br>
     if write_md:
         with open(filename+'.md', 'wb') as mdfile:
             # mdfile.write(md)
+            md = md.encode('utf-8')
             mdfile.write(md)
 
     # Debugging mode: write the .md file with each line prepended with the label our script decided upon.
@@ -82,7 +83,9 @@ Syntax<br>
         with open(filename+'-debug.md', 'wb') as debugfile:
             # mdfile.write(md)
             for l in lines:
-                debugfile.write(l[0] + ' - ' + l[1] + '\n')
+                l[0] = l[0].encode('utf-8')
+                l[1] = l[1].encode("utf-8")
+                debugfile.write(l[0] + b' - ' + l[1] + b'\n')
 
     # We return the headers created for this document.  This can be used to create a table of contents.
     return headers
